@@ -1,16 +1,14 @@
 /*
-	Item object definitions
-	- Weapons (Mace, Sword, Axe, Knife, Hammer)
-
-
-
 	Felix Wallace-Tarry DO NOT STEAL (without permission)
 */
-#include<string>
+#include<iostream>
 #include<vector>
 #include<time.h>
 
 using namespace std;
+
+//-----------------------------------------------------------------------
+//Define Weapon Materials
 
 class Element {
 public:
@@ -26,6 +24,9 @@ Element::Element(string _name, int _rolSize) {
 
 vector<Element> elmntList;
 
+//-----------------------------------------------------------------------
+//Define Weapon Types
+
 class Type {
 public:
 	string name;
@@ -40,8 +41,10 @@ Type::Type(string _name, int _attBonus, int _rolMulti) {
 	rolMulti = _rolMulti;
 };
 
-
 vector<Type> typeList;
+
+//-----------------------------------------------------------------------
+//Define Weapon Objects
 
 class Weapon {
 	int attBonus, rolMulti, rolSize;
@@ -60,13 +63,6 @@ public:
 	Weapon(void) : Weapon("-1", -1, "-1") {};
 };
 
-/*
-Object Constructors (Weapon)
-	-
-
-*/
-
-
 Weapon::Weapon(string _type, int _magic, string _elmnt) {
 	randomize();
 	if (_magic == -1) {
@@ -75,7 +71,7 @@ Weapon::Weapon(string _type, int _magic, string _elmnt) {
 		}
 		else
 			magic = -2;
-	} 
+	}
 	else
 		magic = _magic;
 	if (_type == "-1") {
@@ -83,20 +79,28 @@ Weapon::Weapon(string _type, int _magic, string _elmnt) {
 		type = typeList[ran].name;
 		attBonus = typeList[ran].attBonus;
 		rolMulti = typeList[ran].rolMulti;
-	} 
+	}
 	else
 		findType(_type);
 	if (_elmnt == "-1") {
 		int ran = rand() % elmntList.size();
 		elmnt = elmntList[ran].name;
 		rolSize = elmntList[ran].rolSize;
-	} 
+	}
 	else
 		findElmnt(_elmnt);
 
 }
 
 /* Weapon Functions */
+
+void Weapon::randomize() {
+	static bool seeded = false;
+	if (!seeded) {
+		srand(time(NULL));
+		seeded = true;
+	}
+}
 
 int Weapon::rolAtt(int AC) {
 	int Dam;
@@ -116,14 +120,6 @@ int Weapon::rolDam() {
 		Dam += (rand() % rolSize) + 1;
 	}
 	return Dam;
-}
-
-void Weapon::randomize() {
-	static bool seeded = false;
-	if (!seeded) {
-		srand(time(NULL));
-		seeded = true;
-	}
 }
 
 void Weapon::findType(string _type)
