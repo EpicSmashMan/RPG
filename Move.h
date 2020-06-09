@@ -3,18 +3,23 @@
 
 class zone {
 public:
+	string name;
 	vector<vector<int>> level;
-	zone(vector<vector<int>> level);
+	zone(string name, vector<vector<int>> level);
 };
 
-zone::zone(vector<vector<int>> _level) {
+zone::zone(string _name, vector<vector<int>> _level) {
+	name = _name;
 	level = _level;
 };
 
-vector<zone> zonesTable;
+vector<zone> zoneTable;
 
-void displayZone(int zone, int x, int y) {
-	
+void displayZone(string zone, int x, int y) {
 
 
+}
+
+int findZone(string zone) {
+	return 0;
 }

@@ -53,8 +53,8 @@ int main() {
 	{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	};
-
-	zone Tutorial(level);
+	zone Tutorial("Tutorial", level);
+	zoneTable.push_back(Tutorial);
 
 	Weapon weapon1("Sword", -2, "Bronze");
 	vector<int> damage;
