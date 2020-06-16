@@ -55,7 +55,7 @@ int main() {
 
 	//Define Levels
 	{
-		/* 
+		/*
 		0 - empty space
 		1 - horizontal wall
 		2 - vertical wall
@@ -64,23 +64,27 @@ int main() {
 		5 - bottom left corner
 		6 - bottom right corner
 		7 - pillar
+		8 - chest
+		9 - opened chest
 		*/
-		vector<vector<int>> level =
+		vector<vector<int>> tutorial_level =
 		{
-		{3,1,1,1,1,1,1,1,1,4},
-		{2,0,0,0,0,0,0,0,0,2},
-		{2,0,7,0,0,0,0,7,0,2},
-		{2,0,0,0,0,0,0,0,0,2},
-		{2,0,0,0,0,0,0,0,0,2},
-		{2,0,0,0,0,0,0,0,0,2},
-		{2,0,0,0,0,0,0,0,0,2},
-		{2,0,7,0,0,0,0,7,0,2},
-		{2,0,0,0,0,0,0,0,0,2},
-		{5,1,1,1,1,1,1,1,1,6},
+		{3,1,1,1,1,1,1,1,1,4,0,0,0,0,0},
+		{2,0,0,0,0,0,0,0,0,2,0,0,0,0,0},
+		{2,0,7,0,0,8,9,7,0,2,0,0,0,0,0},
+		{2,0,0,0,0,0,0,0,0,5,1,1,1,1,4},
+		{2,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,3,1,1,1,1,6},
+		{2,0,7,0,0,0,0,7,0,2,0,0,0,0,0},
+		{2,0,0,0,0,0,0,0,0,2,0,0,0,0,0},
+		{5,1,1,1,1,1,1,1,1,6,0,0,0,0,0},
 		};
-		vector<int> dimensions = { 10, 10 };
-		zone Tutorial("Tutorial", level, dimensions);
-		zoneTable.push_back(Tutorial);
+		inter chest1("chest1", { 6, 3 }, 1);
+		vector<inter> tutorial_objects = { };
+		vector<int> tutorial_dimensions = { 15, 10 };
+		zone tutorial_file("Tutorial", tutorial_level, tutorial_dimensions);
+		zoneTable.push_back(tutorial_file);
 	}
 	int lvl = findZone(level);
 

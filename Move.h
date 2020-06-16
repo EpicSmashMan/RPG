@@ -15,6 +15,20 @@ zone::zone(string _name, vector<vector<int>> _level, vector<int> _dimensions) {
 	dimensions = _dimensions;
 };
 
+class inter {
+public:
+	string name;
+	vector<int> position;
+	int response;
+	inter(string name, vector<int> position, int response);
+};
+
+inter::inter(string _name, vector<int> _position, int _response) {
+	name = _name;
+	position = _position;
+	response = _response;
+}
+
 vector<zone> zoneTable;
 
 int findZone(string _name) {
@@ -31,15 +45,17 @@ int findZone(string _name) {
 }
 
 void displayZone(int zoneNum, int x, int y) {
-	for (int i = -4; i < 5; i++) {
+	for (int i = -5; i < 5; i++) {
 		for (int f = 0; f < 5; f++) {
-			for (int j = -4; j < 5; j++) {
+			bool filled = false;
+			for (int j = -6; j < 7; j++) {
 				//OUTSIDE RENDER ZONE
-				if (i + y < 0 || i + y >= zoneTable[zoneNum].dimensions[0]) {
-					cout << "~ ~ ~ ~ ~ ";
+				if (j + x >= zoneTable[zoneNum].dimensions[0] || i + y >= zoneTable[zoneNum].dimensions[1]) {}
+				else if (i + y < 0) {
+					filled = true;
 				}
-				else if (j + x < 0 || j + x >= zoneTable[zoneNum].dimensions[1]) {
-					cout << "~ ~ ~ ~ ~ ";
+				else if (j + x < 0) {
+					cout << "          ";
 				}
 				//RENDER PLAYER
 				else if (i + y == y && j + x == x) {
@@ -61,7 +77,7 @@ void displayZone(int zoneNum, int x, int y) {
 					}
 				}
 				//RENDER BLOCKS
-				else
+				else {
 					switch (zoneTable[zoneNum].level[i + y][j + x]) {
 					case 0:
 						cout << "          ";
@@ -192,17 +208,50 @@ void displayZone(int zoneNum, int x, int y) {
 							cout << "  ------  ";
 						}
 						break;
+					case 8:
+						switch (f) {
+						case 0:
+							cout << "          ";
+							break;
+						case 1:
+							cout << "  ______  ";
+							break;
+						case 2:
+							cout << " |  __  | ";
+							break;
+						case 3:
+							cout << " |------| ";
+							break;
+						case 4:
+							cout << " |______| ";
+						}
+						break;
+					case 9:
+						switch (f) {
+						case 0:
+							cout << "  ______  ";
+							break;
+						case 1:
+							cout << " |__==__| ";
+							break;
+						case 2:
+							cout << " |------| ";
+							break;
+						case 3:
+							cout << " |______| ";
+							break;
+						case 4:
+							cout << " |______| ";
+						}
+						break;
 					default:
 						cout << "& & & & & ";
 					}
+					filled = true;
+				}
 			}
-			if (i == -4) {
-				if(f == 0)
-					cout << "    * - Wall    ~ - Unkown";
-				else if(f == 1)
-					cout << "    X - Player  O - Portal";
-			}
-			cout << endl;
+			if(filled == true)
+				cout << endl;
 		}
 	}
 }
@@ -212,25 +261,25 @@ void move(char input, int &lvl, int &posX, int &posY) {
 	system("cls");
 	switch (input) {
 	case 'a':
-		if (zoneTable[lvl].level[posX - 1][posY] != 0)
+		if (zoneTable[lvl].level[posY][posX - 1] != 0 && zoneTable[lvl].level[posY][posX - 1] != 8 && zoneTable[lvl].level[posY][posX - 1] != 9)
 			invalid = true;
 		else
 			posX--;
 		break;
 	case 'w':
-		if (zoneTable[lvl].level[posX][posY - 1] != 0)
+		if (zoneTable[lvl].level[posY - 1][posX] != 0 && zoneTable[lvl].level[posY - 1][posX] != 8 && zoneTable[lvl].level[posY - 1][posX] != 9)
 			invalid = true;
 		else
 			posY--;
 		break;
 	case 'd':
-		if (zoneTable[lvl].level[posX + 1][posY] != 0)
+		if (zoneTable[lvl].level[posY][posX + 1] != 0 && zoneTable[lvl].level[posY][posX + 1] != 8 && zoneTable[lvl].level[posY][posX + 1] != 9)
 			invalid = true;
 		else
 			posX++;
 		break;
 	case 's':
-		if (zoneTable[lvl].level[posX][posY + 1] != 0)
+		if (zoneTable[lvl].level[posY + 1][posX] != 0 && zoneTable[lvl].level[posY + 1][posX] != 8 && zoneTable[lvl].level[posY + 1][posX] != 9)
 			invalid = true;
 		else
 			posY++;
