@@ -7,6 +7,18 @@
 
 using namespace std;
 
+class Item {
+public:
+	string name;
+	int amount;
+	Item(string name, int amount);
+};
+
+Item::Item(string _name, int _amount) {
+	name = _name;
+	amount = _amount;
+}
+
 //-----------------------------------------------------------------------
 //Define Weapon Materials
 
@@ -46,14 +58,14 @@ vector<Type> typeList;
 //-----------------------------------------------------------------------
 //Define Weapon Objects
 
-class Weapon {
+class Weapon : public Item {
 	int attBonus, rolMulti, rolSize;
 	int rolDam();
 	void randomize();
 	void findType(string);
 	void findElmnt(string);
 public:
-	string name, type, elmnt;
+	string type, elmnt;
 	int magic, durab;
 	int rolAtt(int);
 	Weapon(string _type, int _magic, string _elmnt);
@@ -63,7 +75,7 @@ public:
 	Weapon(void) : Weapon("-1", -1, "-1") {};
 };
 
-Weapon::Weapon(string _type, int _magic, string _elmnt) {
+Weapon::Weapon(string _type, int _magic, string _elmnt) : Item(_type, 1) {
 	randomize();
 	if (_magic == -1) {
 		if (rand() % 2 == 1) {
@@ -152,3 +164,6 @@ void Weapon::findElmnt(string _elmnt)
 		}
 	}
 }
+
+
+vector<Item> Inventory;

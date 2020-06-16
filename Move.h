@@ -1,33 +1,35 @@
 #include<vector>
 #include<string>
 
+class inter {
+public:
+	string name;
+	vector<int> position;
+	vector<Item> contains;
+	inter(string name, vector<int> position, vector<Item> contains);
+};
+
+inter::inter(string _name, vector<int> _position, vector<Item> _contains) {
+	name = _name;
+	position = _position;
+	contains = _contains;
+}
+
 class zone {
 public:
 	string name;
 	vector<vector<int>> level;
 	vector<int> dimensions;
-	zone(string name, vector<vector<int>> level, vector<int> dimensions);
+	vector<inter> inters;
+	zone(string name, vector<vector<int>> level, vector<int> dimensions, vector<inter> inters);
 };
 
-zone::zone(string _name, vector<vector<int>> _level, vector<int> _dimensions) {
+zone::zone(string _name, vector<vector<int>> _level, vector<int> _dimensions, vector<inter> _inters) {
 	name = _name;
 	level = _level;
 	dimensions = _dimensions;
+	inters = _inters;
 };
-
-class inter {
-public:
-	string name;
-	vector<int> position;
-	int response;
-	inter(string name, vector<int> position, int response);
-};
-
-inter::inter(string _name, vector<int> _position, int _response) {
-	name = _name;
-	position = _position;
-	response = _response;
-}
 
 vector<zone> zoneTable;
 
@@ -288,4 +290,26 @@ void move(char input, int &lvl, int &posX, int &posY) {
 	displayZone(lvl, posX, posY);
 	if(invalid == true)
 		cout << "Invalid Movement" << endl;
+	else if (zoneTable[lvl].level[posY][posX] == 8) {
+		cout << "You found a chest!" << endl;
+		cout << "Open it? (Y/N)" << endl;
+		char action = _getch();
+		switch (action) {
+		case 'n':
+		case 'N':
+			cout << "You decide to leave it closed" << endl;
+			break;
+		case 'y':
+		case 'Y':
+			cout << "yes" << endl;
+			for (int i = 0; i < zoneTable[lvl].inters.size(); i++)
+				if (zoneTable[lvl].inters[i].position[0] == posX && zoneTable[lvl].inters[i].position[1] == posY) {
+					for (int j = 0; j < zoneTable[lvl].inters[i].contains.size(); j++) {
+						cout << "You got a " << zoneTable[lvl].inters[i].contains[j].name << endl;
+						Inventory.push_back(zoneTable[lvl].inters[i].contains[j]);
+					}
+				}
+			break;
+		}
+	}
 }

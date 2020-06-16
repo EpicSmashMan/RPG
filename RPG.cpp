@@ -80,10 +80,11 @@ int main() {
 		{2,0,0,0,0,0,0,0,0,2,0,0,0,0,0},
 		{5,1,1,1,1,1,1,1,1,6,0,0,0,0,0},
 		};
-		inter chest1("chest1", { 6, 3 }, 1);
-		vector<inter> tutorial_objects = { };
+		Item GoldPile1("Gold Piece(s)", 50);
+		inter chest1("chest1", { 6, 3 }, { GoldPile1 });
+		vector<inter> tutorial_objects = { chest1 };
 		vector<int> tutorial_dimensions = { 15, 10 };
-		zone tutorial_file("Tutorial", tutorial_level, tutorial_dimensions);
+		zone tutorial_file("Tutorial", tutorial_level, tutorial_dimensions, tutorial_objects);
 		zoneTable.push_back(tutorial_file);
 	}
 	int lvl = findZone(level);
