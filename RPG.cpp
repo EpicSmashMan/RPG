@@ -1,7 +1,6 @@
 #include<iostream>
 #include<conio.h>
 #include<string>
-#include<H:\Line.h>
 #include<numeric>
 #include<time.h>
 #include"Items.h"
@@ -13,6 +12,16 @@ using namespace std;
 int main() {
 	system("cls");
 	srand(time(NULL));
+	int posX, posY;
+	string level;
+
+	posX = 6; posY = 5;
+	level = "Tutorial";
+
+
+
+
+
 
 	//Define Weapon Types
 	{
@@ -21,11 +30,13 @@ int main() {
 		Type Axe("Axe", 6, 3);
 		Type Sword("Sword", 7, 2);
 		Type Knife("Knife", 10, 1);
+		Type Short_Sword("Short Sword", 6, 3);
 		typeList.push_back(Mace);
 		typeList.push_back(Sword);
 		typeList.push_back(Axe);
 		typeList.push_back(Knife);
 		typeList.push_back(Hammer);
+		typeList.push_back(Short_Sword);
 	}
 
 	//Define Weapon Materials
@@ -42,23 +53,52 @@ int main() {
 	elmntList.push_back(Adamantium);
 	}
 
-	vector<vector<int>> level =
+	//Define Levels
 	{
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-	{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-	{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-	{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-	{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-	{0,1,1,1,1,1,1,1,1,1,1,1,1,0},
-	{0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	};
-	zone Tutorial("Tutorial", level);
-	zoneTable.push_back(Tutorial);
+		/* 
+		0 - empty space
+		1 - horizontal wall
+		2 - vertical wall
+		3 - Top left corner
+		4 - Top right corner
+		5 - bottom left corner
+		6 - bottom right corner
+		7 - pillar
+		*/
+		vector<vector<int>> level =
+		{
+		{3,1,1,1,1,1,1,1,1,4},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,7,0,0,0,0,7,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,7,0,0,0,0,7,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{5,1,1,1,1,1,1,1,1,6},
+		};
+		vector<int> dimensions = { 10, 10 };
+		zone Tutorial("Tutorial", level, dimensions);
+		zoneTable.push_back(Tutorial);
+	}
+	int lvl = findZone(level);
 
-	Weapon weapon1("Sword", -2, "Bronze");
-	vector<int> damage;
-	int iter = 10000;
+	char action;
+	displayZone(lvl, posX, posY);
+
+
+	while (1 == 1) {
+		action = _getch();
+		if (action == 'a' || 'd' || 's' || 'w') {
+			move(action, lvl, posX, posY);
+		}
+		else
+			cout << "else" << endl;
+	}
+
+	//vector<int> damage;
+	//int iter = 10000;
 	//for (int x = 0; x < iter; x++) {
 	//	damage.push_back(weapon1.rolAtt(12));
 	//}
