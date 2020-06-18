@@ -166,4 +166,4 @@ void Weapon::findElmnt(string _elmnt)
 }
 
 
-vector<Item> Inventory;
+vector<Item*> Inventory;

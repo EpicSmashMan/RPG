@@ -5,11 +5,11 @@ class inter {
 public:
 	string name;
 	vector<int> position;
-	vector<Item> contains;
-	inter(string name, vector<int> position, vector<Item> contains);
+	vector<Item*> contains;
+	inter(string name, vector<int> position, vector<Item*> contains);
 };
 
-inter::inter(string _name, vector<int> _position, vector<Item> _contains) {
+inter::inter(string _name, vector<int> _position, vector<Item*> _contains) {
 	name = _name;
 	position = _position;
 	contains = _contains;
@@ -246,6 +246,24 @@ void displayZone(int zoneNum, int x, int y) {
 							cout << " |______| ";
 						}
 						break;
+					case 10:
+						switch (f) {
+						case 0:
+							cout << "   ----   ";
+							break;
+						case 1:
+							cout << "  |    |  ";
+							break;
+						case 2:
+							cout << "  |*   |  ";
+							break;
+						case 3:
+							cout << "  |    |  ";
+							break;
+						case 4:
+							cout << "   ----   ";
+						}
+						break;
 					default:
 						cout << "& & & & & ";
 					}
@@ -258,30 +276,31 @@ void displayZone(int zoneNum, int x, int y) {
 	}
 }
 
-void move(char input, int &lvl, int &posX, int &posY) {
+void move(char input, string &level, int &posX, int &posY) {
 	bool invalid = false;
+	int lvl = findZone(level);
 	system("cls");
 	switch (input) {
 	case 'a':
-		if (zoneTable[lvl].level[posY][posX - 1] != 0 && zoneTable[lvl].level[posY][posX - 1] != 8 && zoneTable[lvl].level[posY][posX - 1] != 9)
+		if (zoneTable[lvl].level[posY][posX - 1] != 0 && zoneTable[lvl].level[posY][posX - 1] < 8)
 			invalid = true;
 		else
 			posX--;
 		break;
 	case 'w':
-		if (zoneTable[lvl].level[posY - 1][posX] != 0 && zoneTable[lvl].level[posY - 1][posX] != 8 && zoneTable[lvl].level[posY - 1][posX] != 9)
+		if (zoneTable[lvl].level[posY - 1][posX] != 0 && zoneTable[lvl].level[posY - 1][posX] < 8)
 			invalid = true;
 		else
 			posY--;
 		break;
 	case 'd':
-		if (zoneTable[lvl].level[posY][posX + 1] != 0 && zoneTable[lvl].level[posY][posX + 1] != 8 && zoneTable[lvl].level[posY][posX + 1] != 9)
+		if (zoneTable[lvl].level[posY][posX + 1] != 0 && zoneTable[lvl].level[posY][posX + 1] < 8)
 			invalid = true;
 		else
 			posX++;
 		break;
 	case 's':
-		if (zoneTable[lvl].level[posY + 1][posX] != 0 && zoneTable[lvl].level[posY + 1][posX] != 8 && zoneTable[lvl].level[posY + 1][posX] != 9)
+		if (zoneTable[lvl].level[posY + 1][posX] != 0 && zoneTable[lvl].level[posY + 1][posX] < 8)
 			invalid = true;
 		else
 			posY++;
@@ -301,15 +320,23 @@ void move(char input, int &lvl, int &posX, int &posY) {
 			break;
 		case 'y':
 		case 'Y':
-			cout << "yes" << endl;
-			for (int i = 0; i < zoneTable[lvl].inters.size(); i++)
+			for (int i = 0; i < zoneTable[lvl].inters.size(); i++) {
 				if (zoneTable[lvl].inters[i].position[0] == posX && zoneTable[lvl].inters[i].position[1] == posY) {
 					for (int j = 0; j < zoneTable[lvl].inters[i].contains.size(); j++) {
-						cout << "You got a " << zoneTable[lvl].inters[i].contains[j].name << endl;
+						cout << "You got " << zoneTable[lvl].inters[i].contains[j]->name << " x" << zoneTable[lvl].inters[i].contains[j]->amount << endl;
 						Inventory.push_back(zoneTable[lvl].inters[i].contains[j]);
 					}
+					zoneTable[lvl].inters[i].contains.erase(zoneTable[lvl].inters[i].contains.begin(), zoneTable[lvl].inters[i].contains.end());
+					zoneTable[lvl].level[posY][posX] = 9;
 				}
-			break;
+			}
+		}
+	}
+	else if (zoneTable[lvl].level[posY][posX] == 10) {
+		for (int i = 0; i < zoneTable[lvl].inters.size(); i++) {
+			if (zoneTable[lvl].inters[i].position[0] == posX && zoneTable[lvl].inters[i].position[1] == posY) {
+				level = zoneTable[lvl].inters[i].contains[0]->name;
+			}
 		}
 	}
 }

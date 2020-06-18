@@ -66,29 +66,29 @@ int main() {
 		7 - pillar
 		8 - chest
 		9 - opened chest
+		10 - door
 		*/
 		vector<vector<int>> tutorial_level =
 		{
-		{3,1,1,1,1,1,1,1,1,4,0,0,0,0,0},
-		{2,0,0,0,0,0,0,0,0,2,0,0,0,0,0},
-		{2,0,7,0,0,8,9,7,0,2,0,0,0,0,0},
-		{2,0,0,0,0,0,0,0,0,5,1,1,1,1,4},
-		{2,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-		{2,0,0,0,0,0,0,0,0,0,0,0,0,0,2},
-		{2,0,0,0,0,0,0,0,0,3,1,1,1,1,6},
-		{2,0,7,0,0,0,0,7,0,2,0,0,0,0,0},
-		{2,0,0,0,0,0,0,0,0,2,0,0,0,0,0},
-		{5,1,1,1,1,1,1,1,1,6,0,0,0,0,0},
+		{3,1,1,1,1,1,1,1,1,4},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,7,0,0,8,0,7,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,10},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{2,0,7,0,0,0,0,7,0,2},
+		{2,0,0,0,0,0,0,0,0,2},
+		{5,1,1,1,1,1,1,1,1,6},
 		};
-		Item GoldPile1("Gold Piece(s)", 50);
-		inter chest1("chest1", { 6, 3 }, { GoldPile1 });
-		vector<inter> tutorial_objects = { chest1 };
-		vector<int> tutorial_dimensions = { 15, 10 };
+		inter chest1tutorial("chest1", { 5, 2 }, {new Item("Gold Piece", 50)});
+		inter door1tutorial("door1", { 9, 4 }, {new Item("Zone2", 0)});
+		vector<inter> tutorial_objects = { chest1tutorial, door1tutorial };
+		vector<int> tutorial_dimensions = { 10, 10 };
 		zone tutorial_file("Tutorial", tutorial_level, tutorial_dimensions, tutorial_objects);
 		zoneTable.push_back(tutorial_file);
 	}
 	int lvl = findZone(level);
-
 	char action;
 	displayZone(lvl, posX, posY);
 
@@ -96,7 +96,7 @@ int main() {
 	while (1 == 1) {
 		action = _getch();
 		if (action == 'a' || 'd' || 's' || 'w') {
-			move(action, lvl, posX, posY);
+			move(action, level, posX, posY);
 		}
 		else
 			cout << "else" << endl;
